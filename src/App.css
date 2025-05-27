@@ -41,18 +41,20 @@
   color: #888;
 }
 
-
-
 /* Remise à zéro des marges et paddings */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 /* S’assurer que tout l’écran est pris en compte */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
-  background-color: #1e0406;  /* fond noir */
-  color: #fff;             /* texte blanc par défaut */
+  background-color: #1e0406; /* fond noir */
+  color: #fff; /* texte blanc par défaut */
 }

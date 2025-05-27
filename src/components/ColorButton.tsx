@@ -55,12 +55,8 @@ export const ColorButton: React.FC = () => {
     setInputSeq(newSeq);
     setHints('');
 
-    
-
     if (newSeq.length === correctSequence.length) {
-      const isCorrect = newSeq.every(
-        (code, idx) => code === correctSequence[idx]
-      );
+      const isCorrect = newSeq.every((code, idx) => code === correctSequence[idx]);
 
       if (isCorrect) {
         setEnigme3(true);
@@ -205,10 +201,12 @@ export const ColorButton: React.FC = () => {
 
       <div>
         <button onClick={replaySequence} style={replayStyle}>
-         Réinitialiser la sélection
+          Réinitialiser la sélection
         </button>
         <div style={feedbackContainer}>
-          <div>Saisie: <span>{displaySeq.join(' - ')}</span></div>
+          <div>
+            Saisie: <span>{displaySeq.join(' - ')}</span>
+          </div>
           <div style={statusStyle}>{enigme3 ? 'Succès 🎉' : ''}</div>
           <div style={hintStyle}>{hints}</div>
         </div>

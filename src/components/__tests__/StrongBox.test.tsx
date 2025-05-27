@@ -12,15 +12,17 @@ const FakeProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const reset = vi.fn(); // mock ou une vraie logique selon le test
 
   return (
-    <ProfileContext.Provider value={{
-      enigme1,
-      enigme2, 
-      enigme3,
-      setEnigme1,
-      setEnigme2,
-      setEnigme3,
-      reset
-    }}>
+    <ProfileContext.Provider
+      value={{
+        enigme1,
+        enigme2,
+        enigme3,
+        setEnigme1,
+        setEnigme2,
+        setEnigme3,
+        reset,
+      }}
+    >
       {children}
     </ProfileContext.Provider>
   );
@@ -42,7 +44,7 @@ describe('StrongBox', () => {
 
   it('accepte le bon code', () => {
     renderWithProvider();
-    ['1', '2', '3', '4'].forEach(d => fireEvent.click(screen.getByText(d)));
+    ['1', '2', '3', '4'].forEach((d) => fireEvent.click(screen.getByText(d)));
     expect(screen.getByText('Succès 🎉 ! Code correct.')).toBeInTheDocument();
   });
 

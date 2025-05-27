@@ -13,24 +13,24 @@ const container: React.CSSProperties = {
   borderRadius: '16px',
   boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
   color: '#fff',
-  textAlign: 'center'
+  textAlign: 'center',
 };
 
 const title: React.CSSProperties = {
   fontSize: '1.5rem',
   fontWeight: 700,
-  marginBottom: '16px'
+  marginBottom: '16px',
 };
 
 const intro: React.CSSProperties = {
   fontStyle: 'italic',
-  marginBottom: '24px'
+  marginBottom: '24px',
 };
 
 const form: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center'
+  alignItems: 'center',
 };
 
 const inputStyle: React.CSSProperties = {
@@ -41,7 +41,7 @@ const inputStyle: React.CSSProperties = {
   fontSize: '1rem',
   color: '#1f2937',
   width: '100%',
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
 };
 
 const buttonStyle: React.CSSProperties = {
@@ -51,24 +51,24 @@ const buttonStyle: React.CSSProperties = {
   borderRadius: '8px',
   fontSize: '1rem',
   fontWeight: 600,
-  cursor: 'pointer'
+  cursor: 'pointer',
 };
 
 const hintBox: React.CSSProperties = {
   marginTop: '24px',
   backgroundColor: 'rgba(255, 255, 255, 0.2)',
   padding: '16px',
-  borderRadius: '8px'
+  borderRadius: '8px',
 };
 
 const statusStyle: React.CSSProperties = {
   marginTop: '16px',
   color: '#bbf7d0',
-  fontWeight: 700
+  fontWeight: 700,
 };
 
 export const HiddenWord: React.FC = () => {
-  const { enigme2, setEnigme2 } = useProfileContext();
+  const {  setEnigme2 } = useProfileContext();
   const [inputValue, setInputValue] = useState('');
   const [hintIndex, setHintIndex] = useState(0);
   const [hint, setHint] = useState('Bienvenue, jeune aventurier...');
@@ -77,9 +77,9 @@ export const HiddenWord: React.FC = () => {
   // Histoire et indices progressifs
   const hints = [
     "🕯️ Dans un vieux grimoire, on lit que le mot commence par 'M'.",
-    "🔮 Il évoque ce qui reste caché derrière le visible.",
+    '🔮 Il évoque ce qui reste caché derrière le visible.',
     "📜 Il se termine par 'E' et compte 7 lettres.",
-    "🗝️ C'est la clé pour lever le voile du secret !"
+    "🗝️ C'est la clé pour lever le voile du secret !",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -110,7 +110,7 @@ export const HiddenWord: React.FC = () => {
         <input
           type="text"
           value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="Entrez votre réponse"
           style={inputStyle}
         />

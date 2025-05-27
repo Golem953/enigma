@@ -12,15 +12,17 @@ const FakeProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const reset = vi.fn();
 
   return (
-    <ProfileContext.Provider value={{
-      enigme1,
-      enigme2,
-      enigme3,
-      setEnigme1,
-      setEnigme2,
-      setEnigme3,
-      reset,
-    }}>
+    <ProfileContext.Provider
+      value={{
+        enigme1,
+        enigme2,
+        enigme3,
+        setEnigme1,
+        setEnigme2,
+        setEnigme3,
+        reset,
+      }}
+    >
       {children}
     </ProfileContext.Provider>
   );
@@ -46,8 +48,8 @@ describe('ColorButton', () => {
     const correctColors = ['Vert', 'Jaune', 'Orange'];
 
     // Sélection des bonnes couleurs en fonction des labels (ordre non garanti dans le DOM)
-    correctColors.forEach(label => {
-      const button = screen.getAllByText(label).find(btn => btn.tagName === 'BUTTON');
+    correctColors.forEach((label) => {
+      const button = screen.getAllByText(label).find((btn) => btn.tagName === 'BUTTON');
       expect(button).toBeTruthy();
       fireEvent.click(button!);
     });
@@ -61,8 +63,8 @@ describe('ColorButton', () => {
 
     const wrongColors = ['Rouge', 'Bleu', 'Violet'];
 
-    wrongColors.forEach(label => {
-      const button = screen.getAllByText(label).find(btn => btn.tagName === 'BUTTON');
+    wrongColors.forEach((label) => {
+      const button = screen.getAllByText(label).find((btn) => btn.tagName === 'BUTTON');
       expect(button).toBeTruthy();
       fireEvent.click(button!);
     });
@@ -74,10 +76,10 @@ describe('ColorButton', () => {
   it('réinitialise la sélection', () => {
     renderWithProvider();
 
-    const buttonVert = screen.getAllByText('Vert').find(btn => btn.tagName === 'BUTTON');
+    const buttonVert = screen.getAllByText('Vert').find((btn) => btn.tagName === 'BUTTON');
     fireEvent.click(buttonVert!);
     const saisieContainer = screen.getByText('Saisie:').parentElement!;
-expect(saisieContainer.textContent).toContain('Vert');
+    expect(saisieContainer.textContent).toContain('Vert');
 
     fireEvent.click(screen.getByText(/Réinitialiser la sélection/));
     expect(screen.getByText(/Saisie:/).textContent).toBe('Saisie: ');

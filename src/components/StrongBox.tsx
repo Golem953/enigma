@@ -57,13 +57,7 @@ export const StrongBox: React.FC = () => {
     color: '#A0AEC0',
     marginBottom: '24px'
   };
-  const instructionsStyle: React.CSSProperties = {
-    fontSize: '1rem',
-    color: '#CBD5E1',
-    marginBottom: '24px',
-    lineHeight: 1.4,
-    textAlign: 'left'
-  };
+
   const inputStyle: React.CSSProperties = {
     width: '100%',
     textAlign: 'center',

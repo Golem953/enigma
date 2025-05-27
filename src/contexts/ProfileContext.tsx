@@ -31,6 +31,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProfileContext = () => {
   const context = useContext(ProfileContext);
   if (!context) {
@@ -39,4 +40,4 @@ export const useProfileContext = () => {
   return context;
 };
 
-export { ProfileContext }; 
+export { ProfileContext };

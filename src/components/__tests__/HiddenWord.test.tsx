@@ -12,15 +12,17 @@ const FakeProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const reset = vi.fn();
 
   return (
-    <ProfileContext.Provider value={{
-      enigme1,
-      enigme2,
-      enigme3,
-      setEnigme1,
-      setEnigme2,
-      setEnigme3,
-      reset
-    }}>
+    <ProfileContext.Provider
+      value={{
+        enigme1,
+        enigme2,
+        enigme3,
+        setEnigme1,
+        setEnigme2,
+        setEnigme3,
+        reset,
+      }}
+    >
       {children}
     </ProfileContext.Provider>
   );
@@ -37,12 +39,12 @@ describe('HiddenWord', () => {
   it('affiche le titre et le champ', () => {
     renderWithProvider();
     expect(screen.getByText("L'Énigme du Grimoire")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Entrez votre réponse")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Entrez votre réponse')).toBeInTheDocument();
   });
 
   it('affiche les indices progressivement après des erreurs', () => {
     renderWithProvider();
-    const input = screen.getByPlaceholderText("Entrez votre réponse") as HTMLInputElement;
+    const input = screen.getByPlaceholderText('Entrez votre réponse') as HTMLInputElement;
     const button = screen.getByText('Valider');
 
     fireEvent.change(input, { target: { value: 'mauvais' } });
@@ -68,7 +70,7 @@ describe('HiddenWord', () => {
 
   it('valide la bonne réponse et affiche le succès', () => {
     renderWithProvider();
-    const input = screen.getByPlaceholderText("Entrez votre réponse");
+    const input = screen.getByPlaceholderText('Entrez votre réponse');
     const button = screen.getByText('Valider');
 
     fireEvent.change(input, { target: { value: 'MYSTERE' } });

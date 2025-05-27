@@ -40,11 +40,11 @@
 }
 
 .hp-letter {
-    color: white;
+  color: white;
 }
 
 .hp-letter:hover {
-    color: #442c2e;
+  color: #442c2e;
 }
 
 .hp-btn {
@@ -54,7 +54,9 @@
   margin: 0 0.5rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 .hp-btn:hover {

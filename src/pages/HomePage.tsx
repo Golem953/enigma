@@ -4,10 +4,9 @@ import './css/HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
+  const navigate = useNavigate();
 
-   const navigate = useNavigate();
-
-    const handleClick = async () => {
+  const handleClick = async () => {
     // 1. Charger dynamiquement le CSS de GamePage
     await import(/* webpackChunkName: "game-css" */ './css/Game.css');
     // 2. Puis naviguer vers la route /game
@@ -23,7 +22,9 @@ export default function HomePage() {
         </header>
 
         <nav className="hp-nav">
-          <button className="hp-btn" onClick={handleClick}><span className='hp-letter'>Commencer l'énigme</span></button>
+          <button className="hp-btn" onClick={handleClick}>
+            <span className="hp-letter">Commencer l'énigme</span>
+          </button>
         </nav>
 
         <section className="hp-intro">
@@ -36,10 +37,12 @@ export default function HomePage() {
         </section>
 
         <footer className="hp-footer">
-          <p>Prêt à plonger ?<br/>Le temps presse…</p>
+          <p>
+            Prêt à plonger ?<br />
+            Le temps presse…
+          </p>
         </footer>
       </div>
     </div>
   );
 }
-

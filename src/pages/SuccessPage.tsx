@@ -15,12 +15,11 @@ export const SuccessPage: React.FC = () => {
     <div style={styles.container}>
       <h1 style={styles.title}>Victoire Éclatante !</h1>
       <p style={styles.message}>
-        Vous avez triomphé de chaque défi : déverrouillé le coffre mystérieux, déchiffré le mot caché
-        et révélé l'ordre sacré des couleurs. Votre perspicacité a illuminé l’obscurité.
+        Vous avez triomphé de chaque défi : déverrouillé le coffre mystérieux, déchiffré le mot caché et révélé l'ordre
+        sacré des couleurs. Votre perspicacité a illuminé l’obscurité.
       </p>
       <p style={styles.subMessage}>
-        Portez désormais fièrement ce savoir nouvellement acquis, et poursuivez votre quête
-        avec la même ardeur.
+        Portez désormais fièrement ce savoir nouvellement acquis, et poursuivez votre quête avec la même ardeur.
       </p>
       <button style={styles.button} onClick={handleRestart}>
         Recommencer l'aventure

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { StrongBox } from '../components/StrongBox';
 import { useProfileContext } from '../contexts/ProfileContext';
