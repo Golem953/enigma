@@ -1,76 +1,85 @@
-import React from 'react';
-import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import React, { useState } from 'react';
 import { ColorButton } from '../ColorButton';
-import * as ProfileContext from '../../contexts/ProfileContext';
+import { ProfileContext } from '../../contexts/ProfileContext'; // Assure-toi que c'est exporté
 
-describe('ColorButton Component (TDD)', () => {
-  let setEnigme1Mock: ReturnType<typeof vi.fn>;
-  let setEnigme2Mock: ReturnType<typeof vi.fn>;
-  let setEnigme3Mock: ReturnType<typeof vi.fn>;
-  let resetMock: ReturnType<typeof vi.fn>;
+// Faux contexte pour les tests
+const FakeProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [enigme1, setEnigme1] = useState(false);
+  const [enigme2, setEnigme2] = useState(false);
+  const [enigme3, setEnigme3] = useState(false);
+  const reset = vi.fn();
 
-  beforeEach(() => {
-    setEnigme1Mock = vi.fn();
-    setEnigme2Mock = vi.fn();
-    setEnigme3Mock = vi.fn();
-    resetMock = vi.fn();
+  return (
+    <ProfileContext.Provider value={{
+      enigme1,
+      enigme2,
+      enigme3,
+      setEnigme1,
+      setEnigme2,
+      setEnigme3,
+      reset,
+    }}>
+      {children}
+    </ProfileContext.Provider>
+  );
+};
 
-    vi.spyOn(ProfileContext, 'useProfileContext').mockReturnValue({
-      enigme1: false,
-      enigme2: false,
-      enigme3: false,
-      setEnigme1: setEnigme1Mock,
-      setEnigme2: setEnigme2Mock,
-      setEnigme3: setEnigme3Mock,
-      reset: resetMock,
-    });
+const renderWithProvider = () =>
+  render(
+    <FakeProfileProvider>
+      <ColorButton />
+    </FakeProfileProvider>
+  );
+
+describe('ColorButton', () => {
+  it('affiche le titre et les instructions', () => {
+    renderWithProvider();
+    expect(screen.getByText(/Énigme 3/)).toBeInTheDocument();
+    expect(screen.getByText(/Répliquez son ordre/)).toBeInTheDocument();
   });
 
-  test('renders all color buttons, initial codes empty and Var3 false', () => {
-    render(<ColorButton />);
-    ['Jaune', 'Bleu', 'Rouge', 'Vert', 'Orange'].forEach((label) => {
-      expect(screen.getByRole('button', { name: label })).toBeInTheDocument();
+  it('affiche "Succès 🎉" si bonne séquence est saisie', () => {
+    renderWithProvider();
+
+    const correctColors = ['Vert', 'Jaune', 'Orange'];
+
+    // Sélection des bonnes couleurs en fonction des labels (ordre non garanti dans le DOM)
+    correctColors.forEach(label => {
+      const button = screen.getAllByText(label).find(btn => btn.tagName === 'BUTTON');
+      expect(button).toBeTruthy();
+      fireEvent.click(button!);
     });
-    expect(screen.getByText(/Codes:/)).toHaveTextContent('Codes:');
-    expect(screen.getByText(/Var3:/)).toHaveTextContent('Var3: false');
-    expect(setEnigme3Mock).not.toHaveBeenCalled();
+
+    expect(screen.getByText('Succès 🎉')).toBeInTheDocument();
+    expect(screen.getByText(/Bravo, vous avez trouvé/)).toBeInTheDocument();
   });
 
-  test("clicking wrong sequence calls setEnigme3(false) on each click", async () => {
-    render(<ColorButton />);
-    const user = userEvent.setup();
-    const rouge = screen.getByRole('button', { name: 'Rouge' });
-    const orange = screen.getByRole('button', { name: 'Orange' });
-    const jaune = screen.getByRole('button', { name: 'Jaune' });
+  it('affiche un message d’erreur si mauvaise séquence', () => {
+    renderWithProvider();
 
-    // Wrong order: Rouge -> Orange -> Jaune
-    await user.click(rouge);
-    await user.click(orange);
-    await user.click(jaune);
+    const wrongColors = ['Rouge', 'Bleu', 'Violet'];
 
-    // Component calls setEnigme3(false) on each non-matching click
-    expect(setEnigme3Mock).toHaveBeenCalledTimes(3);
-    setEnigme3Mock.mock.calls.forEach((call) => {
-      expect(call[0]).toBe(false);
+    wrongColors.forEach(label => {
+      const button = screen.getAllByText(label).find(btn => btn.tagName === 'BUTTON');
+      expect(button).toBeTruthy();
+      fireEvent.click(button!);
     });
-    expect(screen.getByText(/Var3:/)).toHaveTextContent('Var3: false');
+
+    expect(screen.getByText(/Ce n’est pas bon/)).toBeInTheDocument();
+    expect(screen.queryByText('Succès 🎉')).not.toBeInTheDocument();
   });
 
-  test('correct sequence Rouge -> Jaune -> Orange triggers setEnigme3 and updates codes', async () => {
-    render(<ColorButton />);
-    const user = userEvent.setup();
-    const rouge = screen.getByRole('button', { name: 'Rouge' });
-    const jaune = screen.getByRole('button', { name: 'Jaune' });
-    const orange = screen.getByRole('button', { name: 'Orange' });
+  it('réinitialise la sélection', () => {
+    renderWithProvider();
 
-    await user.click(rouge);
-    await user.click(jaune);
-    await user.click(orange);
+    const buttonVert = screen.getAllByText('Vert').find(btn => btn.tagName === 'BUTTON');
+    fireEvent.click(buttonVert!);
+    const saisieContainer = screen.getByText('Saisie:').parentElement!;
+expect(saisieContainer.textContent).toContain('Vert');
 
-    expect(setEnigme3Mock).toHaveBeenCalledWith(true);
-    expect(screen.getByText(/Codes:/)).toHaveTextContent('Codes: Ro, Ja, Or');
-    // The context mock is static, so Var3 UI won't update in this test environment
+    fireEvent.click(screen.getByText(/Réinitialiser la sélection/));
+    expect(screen.getByText(/Saisie:/).textContent).toBe('Saisie: ');
   });
 });

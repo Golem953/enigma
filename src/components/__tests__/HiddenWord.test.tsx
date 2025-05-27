@@ -1,64 +1,80 @@
-import React from 'react';
-import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import React, { useState } from 'react';
 import { HiddenWord } from '../HiddenWord';
-import * as ProfileContext from '../../contexts/ProfileContext';
+import { ProfileContext } from '../../contexts/ProfileContext'; // <- nécessite l’export de ProfileContext
 
-describe('HiddenWord Component', () => {
-  let setEnigme1Mock: ReturnType<typeof vi.fn>;
-  let setEnigme2Mock: ReturnType<typeof vi.fn>;
-  let setEnigme3Mock: ReturnType<typeof vi.fn>;
-  let resetMock: ReturnType<typeof vi.fn>;
+// Faux provider pour injecter le contexte
+const FakeProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [enigme1, setEnigme1] = useState(false);
+  const [enigme2, setEnigme2] = useState(false);
+  const [enigme3, setEnigme3] = useState(false);
+  const reset = vi.fn();
 
-  beforeEach(() => {
-    setEnigme1Mock = vi.fn();
-    setEnigme2Mock = vi.fn();
-    setEnigme3Mock = vi.fn();
-    resetMock = vi.fn();
+  return (
+    <ProfileContext.Provider value={{
+      enigme1,
+      enigme2,
+      enigme3,
+      setEnigme1,
+      setEnigme2,
+      setEnigme3,
+      reset
+    }}>
+      {children}
+    </ProfileContext.Provider>
+  );
+};
 
-    vi.spyOn(ProfileContext, 'useProfileContext').mockReturnValue({
-      enigme1: false,
-      enigme2: false,
-      enigme3: false,
-      setEnigme1: setEnigme1Mock,
-      setEnigme2: setEnigme2Mock,
-      setEnigme3: setEnigme3Mock,
-      reset: resetMock,
-    });
+const renderWithProvider = () =>
+  render(
+    <FakeProfileProvider>
+      <HiddenWord />
+    </FakeProfileProvider>
+  );
+
+describe('HiddenWord', () => {
+  it('affiche le titre et le champ', () => {
+    renderWithProvider();
+    expect(screen.getByText("L'Énigme du Grimoire")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Entrez votre réponse")).toBeInTheDocument();
   });
 
-  test('renders input and initial Var1: false', () => {
-    render(<HiddenWord />);
-    const input = screen.getByPlaceholderText('Entrez le code');
-    expect(input).toBeInTheDocument();
-    expect(input).toHaveValue('');
-    expect(screen.getByText('Var1: false')).toBeInTheDocument();
-    expect(setEnigme2Mock).not.toHaveBeenCalled();
+  it('affiche les indices progressivement après des erreurs', () => {
+    renderWithProvider();
+    const input = screen.getByPlaceholderText("Entrez votre réponse") as HTMLInputElement;
+    const button = screen.getByText('Valider');
+
+    fireEvent.change(input, { target: { value: 'mauvais' } });
+    fireEvent.click(button);
+    expect(screen.getByText(/commence par 'M'/)).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: 'autre' } });
+    fireEvent.click(button);
+    expect(screen.getByText(/reste caché/)).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: 'encore' } });
+    fireEvent.click(button);
+    expect(screen.getByText(/compte 7 lettres/)).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: 'fail' } });
+    fireEvent.click(button);
+    expect(screen.getByText(/clé pour lever le voile/)).toBeInTheDocument();
+
+    fireEvent.change(input, { target: { value: 'nope' } });
+    fireEvent.click(button);
+    expect(screen.getByText(/Plus d'indices/)).toBeInTheDocument();
   });
 
-  test("typing wrong code doesn't call setEnigme2", async () => {
-    render(<HiddenWord />);
-    const input = screen.getByPlaceholderText('Entrez le code');
-    const user = userEvent.setup();
+  it('valide la bonne réponse et affiche le succès', () => {
+    renderWithProvider();
+    const input = screen.getByPlaceholderText("Entrez votre réponse");
+    const button = screen.getByText('Valider');
 
-    await user.clear(input);
-    await user.type(input, 'wrong');
+    fireEvent.change(input, { target: { value: 'MYSTERE' } });
+    fireEvent.click(button);
 
-    expect(input).toHaveValue('wrong');
-    expect(screen.getByText('Var1: false')).toBeInTheDocument();
-    expect(setEnigme2Mock).not.toHaveBeenCalled();
-  });
-
-  test('typing "test" calls setEnigme2(true)', async () => {
-    render(<HiddenWord />);
-    const input = screen.getByPlaceholderText('Entrez le code');
-    const user = userEvent.setup();
-
-    await user.clear(input);
-    await user.type(input, 'test');
-
-    expect(setEnigme2Mock).toHaveBeenCalledTimes(1);
-    expect(setEnigme2Mock).toHaveBeenCalledWith(true);
+    expect(screen.getByText(/🎉 Bravo/)).toBeInTheDocument();
+    expect(screen.queryByText(/indice/)).not.toBeInTheDocument(); // plus d'indices
   });
 });
