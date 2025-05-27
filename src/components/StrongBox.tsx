@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useProfileContext } from '../contexts/ProfileContext';
 
 const SECRET_CODE = '1234';
-const DIGITS = ['1','2','3','4','5','6','7','8','9','0'];
+const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 export const StrongBox: React.FC = () => {
   const { enigme1, setEnigme1 } = useProfileContext();
@@ -44,18 +44,18 @@ export const StrongBox: React.FC = () => {
     color: '#f1f1f1',
     boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
     borderRadius: '12px',
-    minHeight: '460px'
+    minHeight: '460px',
   };
   const title: React.CSSProperties = {
     fontSize: '1.6rem',
     fontWeight: 600,
     marginBottom: '8px',
-    color: 'white'
+    color: 'white',
   };
   const introStyle: React.CSSProperties = {
     fontStyle: 'italic',
     color: '#A0AEC0',
-    marginBottom: '24px'
+    marginBottom: '24px',
   };
 
   const inputStyle: React.CSSProperties = {
@@ -66,13 +66,13 @@ export const StrongBox: React.FC = () => {
     border: '2px solid #D1D5DB',
     borderRadius: '8px',
     padding: '8px 0',
-    marginBottom: '16px'
+    marginBottom: '16px',
   };
   const grid: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: 'repeat(5, 1fr)',
     gap: '12px',
-    marginBottom: '16px'
+    marginBottom: '16px',
   };
   const buttonStyle: React.CSSProperties = {
     width: '48px',
@@ -82,7 +82,7 @@ export const StrongBox: React.FC = () => {
     borderRadius: '50%',
     fontSize: '1rem',
     fontWeight: 700,
-    cursor: 'pointer'
+    cursor: 'pointer',
   };
   const resetContainer: React.CSSProperties = { marginBottom: '16px' };
   const resetButton: React.CSSProperties = {
@@ -90,45 +90,36 @@ export const StrongBox: React.FC = () => {
     color: '#4F46E5',
     background: 'none',
     border: 'none',
-    cursor: 'pointer'
+    cursor: 'pointer',
   };
   const hintContainer: React.CSSProperties = {
     minHeight: '48px',
-    marginTop: '16px'
+    marginTop: '16px',
   };
   const hintText: React.CSSProperties = {
     color: '#D97706',
-    margin: 0
+    margin: 0,
   };
   const successText: React.CSSProperties = {
     color: '#059669',
     fontWeight: 600,
-    margin: 0
+    margin: 0,
   };
 
   return (
     <div style={container}>
       <h2 style={title}>🔒 L'Enigme du coffre-fort</h2>
       <p style={introStyle}>
-        « Une énigme ancienne repose sur quatre chiffres scellés. Inscrivez le code secret à quaternité chiffrée, et à chaque fausse porte franchie, l’ombre chuchotera si votre chiffre songe trop haut… ou trop bas. Que la providence éclaire votre route ! »
+        « Une énigme ancienne repose sur quatre chiffres scellés. Inscrivez le code secret à quaternité chiffrée, et à
+        chaque fausse porte franchie, l’ombre chuchotera si votre chiffre songe trop haut… ou trop bas. Que la
+        providence éclaire votre route ! »
       </p>
 
-      <input
-        type="text"
-        readOnly
-        value={inputValue}
-        placeholder="Code secret"
-        style={inputStyle}
-      />
+      <input type="text" readOnly value={inputValue} placeholder="Code secret" style={inputStyle} />
 
       <div style={grid}>
         {DIGITS.map((digit) => (
-          <button
-            key={digit}
-            onClick={() => handleButtonClick(digit)}
-            disabled={enigme1}
-            style={buttonStyle}
-          >
+          <button key={digit} onClick={() => handleButtonClick(digit)} disabled={enigme1} style={buttonStyle}>
             {digit}
           </button>
         ))}
@@ -136,7 +127,11 @@ export const StrongBox: React.FC = () => {
 
       <div style={resetContainer}>
         <button
-          onClick={() => { setInputValue(''); setHint(''); setEnigme1(false); }}
+          onClick={() => {
+            setInputValue('');
+            setHint('');
+            setEnigme1(false);
+          }}
           style={resetButton}
         >
           Réinitialiser

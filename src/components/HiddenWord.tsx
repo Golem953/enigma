@@ -68,7 +68,7 @@ const statusStyle: React.CSSProperties = {
 };
 
 export const HiddenWord: React.FC = () => {
-  const {  setEnigme2 } = useProfileContext();
+  const { setEnigme2 } = useProfileContext();
   const [inputValue, setInputValue] = useState('');
   const [hintIndex, setHintIndex] = useState(0);
   const [hint, setHint] = useState('Bienvenue, jeune aventurier...');
