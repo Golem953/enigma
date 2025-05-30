@@ -40,5 +40,8 @@ jobs:
       - name: Wait for app to be ready
         run: npx wait-on http://localhost:5173
 
+      - name: Extra wait for Vite/React hydration
+        run: sleep 3
+
       - name: Run E2E tests
         run: npm run e2e
