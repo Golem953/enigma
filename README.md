@@ -78,4 +78,4 @@ Le pipeline se trouve dans `.github/workflows/ci.yml`.
 * **ESLint** & **Prettier** (qualité)
 
 
-**Créé par Abenojar Quentin**
+**Créé par Abenojar Quentin**                    
