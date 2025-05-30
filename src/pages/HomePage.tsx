@@ -1,6 +1,6 @@
 /* pages/HomePage.tsx */
 import React from 'react';
-import './css/HomePage.css';
+import './css/homepage.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function HomePage() {
