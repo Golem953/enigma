@@ -1,4 +1,5 @@
 import { chromium } from 'playwright';
+import fs from 'fs';
 //node tests/e2e.js
 (async () => {
   const browser = await chromium.launch({ headless: true });
