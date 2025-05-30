@@ -6,25 +6,25 @@ import fs from 'fs';
   const context = await browser.newContext();
   const page = await context.newPage();
 
-   try {
-    await page.goto('http://localhost:5173/');
-    console.log('Page chargée');
+  //  try {
+  //   await page.goto('http://localhost:5173/');
+  //   console.log('Page chargée');
 
-    // Dump la page AVANT de cliquer (pour debug)
-    await page.screenshot({ path: 'screenshot-ci.png' });
-    fs.writeFileSync('page.html', await page.content());
+  //   // Dump la page AVANT de cliquer (pour debug)
+  //   await page.screenshot({ path: 'screenshot-ci.png' });
+  //   fs.writeFileSync('page.html', await page.content());
 
-    // Démarrer le jeu
-    await page.getByRole('button', { name: /commencer l'énigme/i }).click();
-    // ... le reste de ton code ...
-  } catch (err) {
-    // Dump la page EN CAS D’ERREUR (pour debug aussi)
-    await page.screenshot({ path: 'screenshot-error.png' });
-    fs.writeFileSync('page-error.html', await page.content());
-    console.error('Erreur pendant le test :', err);
-  } finally {
-    await browser.close();
-  }
+  //   // Démarrer le jeu
+  //   await page.getByRole('button', { name: /commencer l'énigme/i }).click();
+  //   // ... le reste de ton code ...
+  // } catch (err) {
+  //   // Dump la page EN CAS D’ERREUR (pour debug aussi)
+  //   await page.screenshot({ path: 'screenshot-error.png' });
+  //   fs.writeFileSync('page-error.html', await page.content());
+  //   console.error('Erreur pendant le test :', err);
+  // } finally {
+  //   await browser.close();
+  // }
 
 
   try {
