@@ -40,18 +40,18 @@ jobs:
       - name: Wait for app to be ready
         run: npx wait-on http://localhost:5173
 
-      - name: Extra wait for Vite/React hydration
-        run: sleep 3
+      # - name: Extra wait for Vite/React hydration
+      #   run: sleep 3
 
       - name: Run E2E tests
         run: npm run e2e
 
-      - name: Upload Playwright Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-e2e-debug
-          path: |
-            screenshot-ci.png
-            page.html
-            screenshot-error.png
-            page-error.html
+      # - name: Upload Playwright Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: playwright-e2e-debug
+      #     path: |
+      #       screenshot-ci.png
+      #       page.html
+      #       screenshot-error.png
+      #       page-error.html
