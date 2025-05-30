@@ -45,3 +45,13 @@ jobs:
 
       - name: Run E2E tests
         run: npm run e2e
+
+      - name: Upload Playwright Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-e2e-debug
+          path: |
+            screenshot-ci.png
+            page.html
+            screenshot-error.png
+            page-error.html
